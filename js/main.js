@@ -1,4 +1,4 @@
-var myCanvas, context, posX, posY;
+var myCanvas, context, posX, posY, size;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -14,16 +14,22 @@ $(document).ready(function(){
 	context.fillRect(0,0,window.innerWidth,window.innerHeight);
 	context.fillRect(0,0,200,100)
 
-	body(510, 300);
+	body(510, 300, 1/2);
 
 });
 
-function body(posX, posY){
+function body(posX, posY, size){
 	
+	var rCuerpo = 70 * size;
+	var rCabeza = 35 * size;
+	var rPieIzq = 20 * size;
+	var rPieDer = 20 * size;
+	var rBrazoIzq = 10 * size;
+	var rBrazoDer = 10 * size;
 
  	// Cuerpo
  	context.beginPath();
- 	context.arc(posX, posY, 70, 0, 2 * Math.PI, false);
+ 	context.arc(posX, posY, rCuerpo, 0, 2 * Math.PI, false);
  	context.fillStyle = "green";
  	context.fill();
  	context.lineWidth = 5;
@@ -32,7 +38,7 @@ function body(posX, posY){
 
  	// Cabeza
  	context.beginPath();
- 	context.arc(posX, posY - 87.5, 35, 0, 2 * Math.PI, false);
+ 	context.arc(posX, posY - rCuerpo, rCabeza, 0, 2 * Math.PI, false);
  	context.fillStyle = "yellow";
  	context.fill();
  	context.lineWidth = 3;
@@ -41,7 +47,7 @@ function body(posX, posY){
 
  	// Pie Izquierdo
  	context.beginPath();
- 	context.arc(posX - 30, posY + 70, 20, 0, 2 * Math.PI, false);
+ 	context.arc(posX - rCuerpo / 2, posY + rCuerpo, rPieIzq, 0, 2 * Math.PI, false);
  	context.fillStyle = "yellow";
  	context.fill();
  	context.lineWidth = 3;
@@ -50,7 +56,7 @@ function body(posX, posY){
 
  	// Pie Derecho
  	context.beginPath();
- 	context.arc(posX + 30, posY + 70, 20, 0, 2 * Math.PI, false);
+ 	context.arc(posX + rCuerpo / 2, posY + rCuerpo, rPieDer, 0, 2 * Math.PI, false);
  	context.fillStyle = "yellow";
  	context.fill();
  	context.lineWidth = 3;
@@ -59,7 +65,7 @@ function body(posX, posY){
 
  	// Mano Izquierda
  	context.beginPath();
- 	context.arc(posX - 70, posY, 10, 0, 2 * Math.PI, false);
+ 	context.arc(posX - rCuerpo, posY, rBrazoIzq, 0, 2 * Math.PI, false);
  	context.fillStyle = "yellow";
  	context.fill();
  	context.lineWidth = 3;
@@ -68,7 +74,7 @@ function body(posX, posY){
 
  	// Mano Derecha
  	context.beginPath();
- 	context.arc(posX + 70, posY, 10, 0, 2 * Math.PI, false);
+ 	context.arc(posX + rCuerpo, posY, rBrazoDer, 0, 2 * Math.PI, false);
  	context.fillStyle = "yellow";
  	context.fill();
  	context.lineWidth = 3;

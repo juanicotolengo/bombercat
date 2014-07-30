@@ -1,13 +1,18 @@
-$(document).ready(function(){
-	// Almacenamos canvas y creamos contexto
-	var myCanvas = document.getElementById("canvas");
-	var context = myCanvas.getContext("2d");
+<!doctype html>
+<html>
+<head>
 
-	// Ancho y alto
-	myCanvas.width = window.innerWidth;
-	myCanvas.height = window.innerHeight;
+	<title>BomberCat</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script src="js/jquery-1.5.2.min.js"></script>
+	<script src="js/main.js"></script>
 
-	// Rellenamos cuadrado
-	context.fillStyle = "#BB0011";
-	context.fillRect(0,0,window.innerWidth,window.innerHeight);
-});
+</head>
+<body>
+
+	<canvas id="canvas">
+
+	</canvas>
+	
+</body>
+</html>

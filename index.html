@@ -1,0 +1,13 @@
+$(document).ready(function(){
+	// Almacenamos canvas y creamos contexto
+	var myCanvas = document.getElementById("canvas");
+	var context = myCanvas.getContext("2d");
+
+	// Ancho y alto
+	myCanvas.width = window.innerWidth;
+	myCanvas.height = window.innerHeight;
+
+	// Rellenamos cuadrado
+	context.fillStyle = "#BB0011";
+	context.fillRect(0,0,window.innerWidth,window.innerHeight);
+});

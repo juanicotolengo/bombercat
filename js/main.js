@@ -1,4 +1,4 @@
-var myCanvas, context, posX = 100, posY = 100, e, size = 1/2;
+var myCanvas, context, posX = 100, posY = 100, e, size = 1/2, move = 20;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -90,8 +90,8 @@ function body(posX, posY, size, color){
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		if (posX < myCanvas.width -60){
-			posX = posX + 10;
+		if (posX < myCanvas.width - 70){
+			posX = posX + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
 			body(posX, posY, 1/2);
@@ -99,8 +99,8 @@ function doKeyDown(e) {
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (posX > 50){
-			posX = posX - 10;
+		if (posX > 70){
+			posX = posX - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
 			body(posX, posY, 1/2);
@@ -108,8 +108,8 @@ function doKeyDown(e) {
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (posY > 70){
-			posY = posY - 10;
+		if (posY > 90){
+			posY = posY - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
 			body(posX, posY, 1/2);
@@ -117,8 +117,8 @@ function doKeyDown(e) {
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (posY < myCanvas.height - 70){
-			posY = posY + 10;
+		if (posY < myCanvas.height - 90){
+			posY = posY + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
 			body(posX, posY, 1/2);

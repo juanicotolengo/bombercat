@@ -1,4 +1,4 @@
-var myCanvas, context, posX, posY, size;
+var myCanvas, context, posX = 100, posY = 100, e, size = 1/2;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -14,20 +14,15 @@ $(document).ready(function(){
 	context.fillRect(0,0,window.innerWidth,window.innerHeight);
 	context.fillRect(0,0,200,100)
 
-	body(100, 100, 1/2);
+	// Dibuja el cuerpo del Bomberman
+	body(posX, posY, size);
 
-	update();
-
-document.body.addEventListener("keydown", function (e) {
-    keys[e.keyCode] = true;
-});
-document.body.addEventListener("keyup", function (e) {
-    keys[e.keyCode] = false;
-});
+	// Checkea si se presionó una tecla y ejecuta doKeyDown
+	document.body.addEventListener( "keydown", doKeyDown, true);
 
 });
 
-function body(posX, posY, size){
+function body(posX, posY, size, color){
 	
 	var rCuerpo = 70 * size;
 	var rCabeza = 35 * size;
@@ -89,51 +84,39 @@ function body(posX, posY, size){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+
 }
 
-var velX = 0,
-	velY = 0,
-	speed = 2,
-	friction = 0.98,
-	keys = [];
-
-function update(){
-	if (keys[38]){
-		if(velY > -speed){
-			velY--;
-		}
+function doKeyDown(e) {
+	// Derecha
+	if (e.keyCode == 39){
+		posX = posX + 10;
+		context.fillStyle = "#BB0011";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		body(posX, posY, 1/2);
 	}
-
-	if (keys[40]){
-		if(velY < speed){
-			velY++;
-		}
+	// Izquierda
+	if (e.keyCode == 37){
+		posX = posX - 10;
+		context.fillStyle = "#BB0011";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		body(posX, posY, 1/2);
 	}
-
-	if (keys[37]){
-		if(velX < speed){
-			velX++;
-		}
+	// Arriba
+	if (e.keyCode == 38){
+		posY = posY - 10;
+		context.fillStyle = "#BB0011";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		body(posX, posY, 1/2);
 	}
-
-	if (keys[39]){
-		if(velX > speed){
-			velX--;
-		}
+	// Abajo
+	if (e.keyCode == 40){
+		posY = posY + 10;
+		context.fillStyle = "#BB0011";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		body(posX, posY, 1/2);
 	}
-
-	velY *= friction;
-	posY += velY;
-
-	velX *= friction;
-	posX += velX;
-
-	body();
-
-	setTimeout(update, 10);
 }
-
-
 
 /*
 left arrow		37

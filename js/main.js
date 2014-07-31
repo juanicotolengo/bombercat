@@ -6,8 +6,8 @@ $(document).ready(function(){
 	context = myCanvas.getContext("2d");
 
 	// Ancho y alto
-	myCanvas.width = window.innerWidth;
-	myCanvas.height = window.innerHeight;
+	myCanvas.width = window.innerWidth -10;
+	myCanvas.height = window.innerHeight - 10;
 
 	// Rellenamos fondo
 	context.fillStyle = "#BB0011";
@@ -90,7 +90,7 @@ function body(posX, posY, size, color){
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		if (posX < window.innerWidth -50){
+		if (posX < myCanvas.width -60){
 			posX = posX + 10;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
@@ -117,7 +117,7 @@ function doKeyDown(e) {
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (posY < window.innerHeight - 70){
+		if (posY < myCanvas.height - 70){
 			posY = posY + 10;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);

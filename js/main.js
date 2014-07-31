@@ -90,31 +90,39 @@ function body(posX, posY, size, color){
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		posX = posX + 10;
-		context.fillStyle = "#BB0011";
-		context.fillRect(0,0,canvas.width,canvas.height);
-		body(posX, posY, 1/2);
+		if (posX < window.innerWidth -50){
+			posX = posX + 10;
+			context.fillStyle = "#BB0011";
+			context.fillRect(0,0,canvas.width,canvas.height);
+			body(posX, posY, 1/2);
+		}
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		posX = posX - 10;
-		context.fillStyle = "#BB0011";
-		context.fillRect(0,0,canvas.width,canvas.height);
-		body(posX, posY, 1/2);
+		if (posX > 50){
+			posX = posX - 10;
+			context.fillStyle = "#BB0011";
+			context.fillRect(0,0,canvas.width,canvas.height);
+			body(posX, posY, 1/2);
+		}
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		posY = posY - 10;
-		context.fillStyle = "#BB0011";
-		context.fillRect(0,0,canvas.width,canvas.height);
-		body(posX, posY, 1/2);
+		if (posY > 70){
+			posY = posY - 10;
+			context.fillStyle = "#BB0011";
+			context.fillRect(0,0,canvas.width,canvas.height);
+			body(posX, posY, 1/2);
+		}
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		posY = posY + 10;
-		context.fillStyle = "#BB0011";
-		context.fillRect(0,0,canvas.width,canvas.height);
-		body(posX, posY, 1/2);
+		if (posY < window.innerHeight - 70){
+			posY = posY + 10;
+			context.fillStyle = "#BB0011";
+			context.fillRect(0,0,canvas.width,canvas.height);
+			body(posX, posY, 1/2);
+		}
 	}
 }
 

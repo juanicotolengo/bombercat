@@ -1,4 +1,4 @@
-var myCanvas, context, posX = 100, posY = 100, e, size = 1/2, move = 20;
+var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 195, posY = 195, e, size = 1/2, move = 20;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -7,7 +7,18 @@ $(document).ready(function(){
 
 	// Ancho y alto
 	myCanvas.width = window.innerWidth -10;
+	canvasWidth = myCanvas.width;
 	myCanvas.height = window.innerHeight - 10;
+	canvasHeight = myCanvas.height;
+	console.log(canvasWidth);
+	console.log(canvasHeight);
+
+	// Divide ancho y alto del canvas en 20 partes
+	mapCellX = canvasWidth / 20;
+	mapCellY = canvasHeight / 20;
+
+	console.log(mapCellX);
+	console.log(mapCellY);
 
 	// Rellenamos fondo
 	context.fillStyle = "#BB0011";
@@ -16,7 +27,8 @@ $(document).ready(function(){
 
 	// Dibuja el cuerpo del Bomberman
 	body(posX, posY, size);
-
+	mapa();
+	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
 	document.body.addEventListener( "keydown", doKeyDown, true);
 
@@ -39,6 +51,7 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#003300";
  	context.stroke();
+ 	context.closePath();
 
  	// Cabeza
  	context.beginPath();
@@ -48,6 +61,7 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+ 	context.closePath();
 
  	// Pie Izquierdo
  	context.beginPath();
@@ -57,6 +71,7 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+ 	context.closePath();
 
  	// Pie Derecho
  	context.beginPath();
@@ -66,6 +81,7 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+ 	context.closePath();
 
  	// Mano Izquierda
  	context.beginPath();
@@ -75,6 +91,7 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+ 	context.closePath();
 
  	// Mano Derecha
  	context.beginPath();
@@ -84,7 +101,28 @@ function body(posX, posY, size, color){
  	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
  	context.stroke();
+ 	context.closePath();
+}
 
+function paredMetal(size, counterX, counterY){
+	context.beginPath();
+	context.fillStyle = "gray";
+	context.fillRect(100 * counterX, 100 * counterY, 195 * size, 195 * size);
+	context.fill();
+	context.lineWidth = 1;
+ 	context.strokeStyle = "#000000";
+ 	context.stroke();
+ 	context.closePath();
+}
+
+function mapa(){
+	for(i = 0; i < 14; i++){
+		for(j = 0; j < 8; j++){
+			if(i%2==0 && j%2==0){
+				paredMetal(size, i, j);
+			}
+		}
+	}
 }
 
 function doKeyDown(e) {
@@ -94,7 +132,7 @@ function doKeyDown(e) {
 			posX = posX + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, 1/2);
+			body(posX, posY, size);
 		}
 	}
 	// Izquierda
@@ -103,7 +141,7 @@ function doKeyDown(e) {
 			posX = posX - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, 1/2);
+			body(posX, posY, size);
 		}
 	}
 	// Arriba
@@ -112,7 +150,7 @@ function doKeyDown(e) {
 			posY = posY - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, 1/2);
+			body(posX, posY, size);
 		}
 	}
 	// Abajo
@@ -121,9 +159,10 @@ function doKeyDown(e) {
 			posY = posY + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, 1/2);
+			body(posX, posY, size);
 		}
 	}
+	mapa();
 }
 
 /*

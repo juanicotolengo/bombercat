@@ -1,4 +1,8 @@
-var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 195, posY = 195, e, size = 1/2, move = 20;
+var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 195, posY = 195, e, size = 1/2, move = 5;
+var xBomberArribaIzq, yBomberArribaIzq, xBomberArribaDer, yBomberArribaDer;
+var xBomberAbajoIzq, yBomberAbajoIzq, xBomberAbajoDer, yBomberAbajoDer;
+var xParedArribaIzq, yParedArribaIzq, xParedArribaDer, yParedArribaDer;
+var xParedAbajoIzq, yParedAbajoIzq, xParedAbajoDer, yParedAbajoDer;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -125,10 +129,17 @@ function mapa(){
 	}
 }
 
+function chocoPared(posX, posY){
+
+	var noChoco = true;
+	return noChoco;
+
+}
+
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		if (posX < myCanvas.width - 70){
+		if (posX < myCanvas.width - 70 && chocoPared(posX, posY)){
 			posX = posX + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);

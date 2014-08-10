@@ -1,30 +1,8 @@
-var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, e, size = 1/2, move = 7, pixelPared = 200;
+var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 48.75, posY = 152, e, size = 1/2, move = 5, pixelPared = 200;
+
+var topBomber, rightBomber, bottomBomber, leftBomber;
 
 var espaciamiento = 100;
-
-var bomberGlobal;
-
-var Bomber = function () {
-    var posX = 0;
-    var posY = 0;
-    var ancho = 0;
-    var alto = 0;
-
-    this.setPosX = function(value) {posX = value;}
-    this.setPosY = function(value) {posY = value;}
-    this.setAncho = function(value) {ancho = value;}
-    this.setAlto = function(value) {alto = value;}
-
-    this.getPosX = function() {return posX;}
-    this.getPosY = function() {return posY;}
-    this.getAncho = function() {return ancho;}
-    this.getAlto = function() {return alto;}
-
-    this.calcularTop = function(){return posY;}
-    this.calcularRight = function(){return posX + ancho;}
-    this.calcularBottom = function(){return posY + alto;}
-    this.calcularLeft = function(){return  posX;}
-}
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -47,22 +25,17 @@ $(document).ready(function(){
 	context.fillRect(0,0,200,100);
 
 	// Dibuja el cuerpo del Bomberman
-	bomberGlobal = new Bomber();
-	bomberGlobal.setPosY(150);
-	bomberGlobal.setPosX(150);
-	body(size);
+	
+	body(posX, posY, size);
 	mapa();
 	dibujarParedAzul();
 	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
 	document.body.addEventListener( "keypress", doKeyDown, true);
+
 });
 
-function body(size){
-
-
-	var posX = bomberGlobal.getPosX();
-	var posY = bomberGlobal.getPosY();
+function body(posX, posY, size){
 
 	//fondo rojo
 	context.fillStyle = "#BB0011";
@@ -74,19 +47,6 @@ function body(size){
 	var rPieDer = 20 * size;
 	var rBrazoIzq = 10 * size;
 	var rBrazoDer = 10 * size;
-
-	var anchoBomber = rCuerpo + rBrazoDer + 2 + rCuerpo + rBrazoIzq + 2;
-	var altoBomber = rCuerpo + rCabeza + rCuerpo + rCabeza;
-
-	bomberGlobal.setAncho(anchoBomber);
-	bomberGlobal.setAlto(altoBomber);
-
-	/*
-	console.log("top es: " + bomberGlobal.calcularTop());
-	console.log("right es: " + bomberGlobal.calcularRight());
-	console.log("bottom es: " + bomberGlobal.calcularBottom());
-	console.log("left es: " + bomberGlobal.calcularLeft());
-	*/
 
 	topBomber = posY - rCuerpo - rCabeza;
 	rightBomber = posX + rCuerpo + rBrazoDer + 2;
@@ -176,51 +136,51 @@ function mapa(){
 }
 
 function doKeyDown(e) {
-	//console.log("Se movio");
 	// Derecha
 	if (e.keyCode == 39){
-		if (bomberGlobal.getPosX() < myCanvas.width - 70){
-			bomberGlobal.setPosX(bomberGlobal.getPosX() + move);
+		if (posX < myCanvas.width - 70){
+			posX = posX + move;
 			if(chocoParedAzul() == true)
 			{
-				bomberGlobal.setPosX(bomberGlobal.getPosX() - (move*2));
+				posX = posX - (move*3);
 			}
 		}
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (bomberGlobal.getPosX() > 70 ){
-			bomberGlobal.setPosX(bomberGlobal.getPosX() - move);
+		if (posX > 70 ){
+			posX = posX - move;
 			if(chocoParedAzul() == true)
 			{
-				bomberGlobal.setPosX(bomberGlobal.getPosX() + (move*2));
+				posX = posX + (move*3);
 			}
 		}
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (bomberGlobal.getPosY() > 90 ){
-			bomberGlobal.setPosY(bomberGlobal.getPosY() - move);
+		if (posY > 90 ){
+			posY = posY - move;
 			if(chocoParedAzul() == true)
 			{
-				bomberGlobal.setPosY(bomberGlobal.getPosY() + (move*2));
+				posY = posY + (move*3);
 			}
 		}
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (bomberGlobal.getPosY() < myCanvas.height - 90){
-			bomberGlobal.setPosY(bomberGlobal.getPosY() + move);
+		if (posY < myCanvas.height - 90){
+			posY = posY + move;
 			if(chocoParedAzul() == true)
 			{
-				bomberGlobal.setPosY(bomberGlobal.getPosY() - (move*2));
+				posY = posY - (move*3);
 			}
 		}
 	}
 
-	body(size);
+	body(posX, posY, size);
 	mapa();
 	dibujarParedAzul();
+	
 }
 
 function choco(){
@@ -258,15 +218,11 @@ function chocoParedAzul(){
  	var rightPared = 700;
  	var bottomPared = 500;
  	var leftPared = 500;
- 	//console.log("Entro a chocoParedAzul");
-
-	if(bomberGlobal.calcularLeft() < rightPared && bomberGlobal.calcularRight() > leftPared){
-		if(bomberGlobal.calcularBottom() > topPared && bomberGlobal.calcularTop() < bottomPared){
+	if(leftBomber < rightPared && rightBomber > leftPared){
+		if(bottomBomber > topPared && topBomber < bottomPared){
 			return true;
 		}
 	}
-
-	//console.log("No entro a los if de chocoParedAzul");
 	return false;
 }
 

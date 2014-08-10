@@ -122,11 +122,6 @@ function body(size){
 	console.log("left es: " + bomberGlobal.calcularLeft());
 	*/
 
-	topBomber = posY - rCuerpo - rCabeza;
-	rightBomber = posX + rCuerpo + rBrazoDer + 2;
-	bottomBomber = posY + rCuerpo + rCabeza;
-	leftBomber = posX - rCuerpo - rBrazoIzq - 2;
-
  	// Cuerpo
  	context.beginPath();
  	context.arc(posX, posY, rCuerpo, 0, 2 * Math.PI, false);

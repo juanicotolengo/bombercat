@@ -1,8 +1,8 @@
-var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 195, posY = 195, e, size = 1/2, move = 5;
-var xBomberArribaIzq, yBomberArribaIzq, xBomberArribaDer, yBomberArribaDer;
-var xBomberAbajoIzq, yBomberAbajoIzq, xBomberAbajoDer, yBomberAbajoDer;
-var xParedArribaIzq, yParedArribaIzq, xParedArribaDer, yParedArribaDer;
-var xParedAbajoIzq, yParedAbajoIzq, xParedAbajoDer, yParedAbajoDer;
+var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, posX = 48.75, posY = 152, e, size = 1/2, move = 5, pixelPared = 200;
+
+var topBomber, rightBomber, bottomBomber, leftBomber;
+
+var espaciamiento = 100;
 
 $(document).ready(function(){
 	// Almacenamos canvas y creamos contexto
@@ -14,27 +14,23 @@ $(document).ready(function(){
 	canvasWidth = myCanvas.width;
 	myCanvas.height = window.innerHeight - 10;
 	canvasHeight = myCanvas.height;
-	console.log(canvasWidth);
-	console.log(canvasHeight);
 
 	// Divide ancho y alto del canvas en 20 partes
 	mapCellX = canvasWidth / 20;
 	mapCellY = canvasHeight / 20;
 
-	console.log(mapCellX);
-	console.log(mapCellY);
-
 	// Rellenamos fondo
 	context.fillStyle = "#BB0011";
 	context.fillRect(0,0,window.innerWidth,window.innerHeight);
-	context.fillRect(0,0,200,100)
+	context.fillRect(0,0,200,100);
 
 	// Dibuja el cuerpo del Bomberman
 	body(posX, posY, size);
 	mapa();
+	dibujarParedAzul();
 	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
-	document.body.addEventListener( "keydown", doKeyDown, true);
+	document.body.addEventListener( "keypress", doKeyDown, true);
 
 });
 
@@ -46,6 +42,11 @@ function body(posX, posY, size, color){
 	var rPieDer = 20 * size;
 	var rBrazoIzq = 10 * size;
 	var rBrazoDer = 10 * size;
+
+	topBomber = posY - rCuerpo - rCabeza;
+	rightBomber = posX + rCuerpo + rBrazoDer;
+	bottomBomber = posY + rCuerpo + rCabeza;
+	leftBomber = posX - rCuerpo - rBrazoIzq;
 
  	// Cuerpo
  	context.beginPath();
@@ -108,10 +109,10 @@ function body(posX, posY, size, color){
  	context.closePath();
 }
 
-function paredMetal(size, counterX, counterY){
+function paredMetal(counterX, counterY){
 	context.beginPath();
 	context.fillStyle = "gray";
-	context.fillRect(100 * counterX, 100 * counterY, 195 * size, 195 * size);
+	context.fillRect(espaciamiento * counterX, espaciamiento * counterY, pixelPared * size, pixelPared * size);
 	context.fill();
 	context.lineWidth = 1;
  	context.strokeStyle = "#000000";
@@ -123,23 +124,17 @@ function mapa(){
 	for(i = 0; i < 14; i++){
 		for(j = 0; j < 8; j++){
 			if(i%2==0 && j%2==0){
-				paredMetal(size, i, j);
+				paredMetal(i, j);
 			}
 		}
 	}
 }
 
-function chocoPared(posX, posY){
-
-	var noChoco = true;
-	return noChoco;
-
-}
-
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		if (posX < myCanvas.width - 70 && chocoPared(posX, posY)){
+		choco();
+		if (posX < myCanvas.width - 70 && chocoParedAzul() == false){
 			posX = posX + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
@@ -148,7 +143,7 @@ function doKeyDown(e) {
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (posX > 70){
+		if (posX > 70 && chocoParedAzul() == false){
 			posX = posX - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
@@ -157,7 +152,7 @@ function doKeyDown(e) {
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (posY > 90){
+		if (posY > 90 && chocoParedAzul() == false){
 			posY = posY - move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
@@ -166,7 +161,7 @@ function doKeyDown(e) {
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (posY < myCanvas.height - 90){
+		if (posY < myCanvas.height - 90 && chocoParedAzul() == false){
 			posY = posY + move;
 			context.fillStyle = "#BB0011";
 			context.fillRect(0,0,canvas.width,canvas.height);
@@ -174,6 +169,59 @@ function doKeyDown(e) {
 		}
 	}
 	mapa();
+	dibujarParedAzul();
+}
+
+function choco(){
+	for(i = 0; i < 14; i++){
+		for(j = 0; j < 8; j++){
+			if(i%2==0 && j%2==0){
+				rightPared = (i * espaciamiento) + (pixelPared * size);
+				leftPared = i * espaciamiento;
+				topPared = j * espaciamiento;
+				bottomPared = (j * espaciamiento) + (pixelPared * size);
+				if(leftBomber <= rightPared && rightBomber >= leftPared){
+					if(bottomBomber >= topPared && topBomber <= bottomPared){
+						return true;
+					}
+				}
+			}
+		}
+	}
+	console.log("Retornó False");
+	return false;
+}
+
+function dibujarParedAzul(){
+		context.beginPath();
+		context.fillStyle = "blue";
+		context.fillRect(500, 300, 200, 200);
+		context.fill();
+		context.lineWidth = 1;
+ 		context.strokeStyle = "#000000";
+ 		context.stroke();
+ 		context.closePath();
+}
+
+function chocoParedAzul(){
+	var topPared = 300;
+ 	var rightPared = 700;
+ 	var bottomPared = 500;
+ 	var leftPared = 500;
+	if(leftBomber < rightPared && rightBomber > leftPared){
+		if(bottomBomber > topPared && topBomber < bottomPared){
+			return true;
+		}
+	}
+	return false;
+}
+
+function liberarBomberTeclaTop(){
+	var topPared = 300;
+	var rightPared = 700;
+ 	var bottomPared = 500;
+ 	var leftPared = 500;
+ 	return true;
 }
 
 /*
@@ -182,3 +230,4 @@ up arrow		38
 right arrow 	39
 down arrow		40
 */
+

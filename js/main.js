@@ -1,4 +1,4 @@
-var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, e, size = 1/2, move = 7, pixelPared = 200;
+var myCanvas, context, size = 1/2, move = 7, pixelPared = 200;
 
 var espaciamiento = 100;
 
@@ -45,7 +45,6 @@ var Pared = function() {
     this.dibujar = function(){
 		context.beginPath();
 		context.fillStyle = "blue";
-		console.log("Left: " + left);
 		context.fillRect(left, top, right - left, bottom - top);
 		context.fill();
 		context.lineWidth = 1;
@@ -62,13 +61,7 @@ $(document).ready(function(){
 
 	// Ancho y alto
 	myCanvas.width = window.innerWidth -10;
-	canvasWidth = myCanvas.width;
 	myCanvas.height = window.innerHeight - 10;
-	canvasHeight = myCanvas.height;
-
-	// Divide ancho y alto del canvas en 20 partes
-	mapCellX = canvasWidth / 20;
-	mapCellY = canvasHeight / 20;
 
 	// Rellenamos fondo
 	context.fillStyle = "#BB0011";

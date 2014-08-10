@@ -25,6 +25,7 @@ $(document).ready(function(){
 	context.fillRect(0,0,200,100);
 
 	// Dibuja el cuerpo del Bomberman
+	
 	body(posX, posY, size);
 	mapa();
 	dibujarParedAzul();
@@ -34,8 +35,12 @@ $(document).ready(function(){
 
 });
 
-function body(posX, posY, size, color){
-	
+function body(posX, posY, size){
+
+	//fondo rojo
+	context.fillStyle = "#BB0011";
+	context.fillRect(0,0,canvas.width,canvas.height);
+
 	var rCuerpo = 70 * size;
 	var rCabeza = 35 * size;
 	var rPieIzq = 20 * size;
@@ -133,43 +138,49 @@ function mapa(){
 function doKeyDown(e) {
 	// Derecha
 	if (e.keyCode == 39){
-		choco();
-		if (posX < myCanvas.width - 70 && chocoParedAzul() == false){
+		if (posX < myCanvas.width - 70){
 			posX = posX + move;
-			context.fillStyle = "#BB0011";
-			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, size);
+			if(chocoParedAzul() == true)
+			{
+				posX = posX - (move*2);
+			}
 		}
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (posX > 70 && chocoParedAzul() == false){
+		if (posX > 70 ){
 			posX = posX - move;
-			context.fillStyle = "#BB0011";
-			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, size);
+			if(chocoParedAzul() == true)
+			{
+				posX = posX + (move*2);
+			}
 		}
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (posY > 90 && chocoParedAzul() == false){
+		if (posY > 90 ){
 			posY = posY - move;
-			context.fillStyle = "#BB0011";
-			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, size);
+			if(chocoParedAzul() == true)
+			{
+				posY = posY + (move*2);
+			}
 		}
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (posY < myCanvas.height - 90 && chocoParedAzul() == false){
+		if (posY < myCanvas.height - 90){
 			posY = posY + move;
-			context.fillStyle = "#BB0011";
-			context.fillRect(0,0,canvas.width,canvas.height);
-			body(posX, posY, size);
+			if(chocoParedAzul() == true)
+			{
+				posY = posY - (move*2);
+			}
 		}
 	}
+
+	body(posX, posY, size);
 	mapa();
 	dibujarParedAzul();
+	
 }
 
 function choco(){
@@ -216,13 +227,6 @@ function chocoParedAzul(){
 	return false;
 }
 
-function liberarBomberTeclaTop(){
-	var topPared = 300;
-	var rightPared = 700;
- 	var bottomPared = 500;
- 	var leftPared = 500;
- 	return true;
-}
 
 /*
 left arrow		37
@@ -230,4 +234,3 @@ up arrow		38
 right arrow 	39
 down arrow		40
 */
-

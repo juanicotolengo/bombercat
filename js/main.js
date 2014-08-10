@@ -49,9 +49,9 @@ function body(posX, posY, size){
 	var rBrazoDer = 10 * size;
 
 	topBomber = posY - rCuerpo - rCabeza;
-	rightBomber = posX + rCuerpo + rBrazoDer;
+	rightBomber = posX + rCuerpo + rBrazoDer + 2;
 	bottomBomber = posY + rCuerpo + rCabeza;
-	leftBomber = posX - rCuerpo - rBrazoIzq;
+	leftBomber = posX - rCuerpo - rBrazoIzq - 2;
 
  	// Cuerpo
  	context.beginPath();
@@ -142,7 +142,7 @@ function doKeyDown(e) {
 			posX = posX + move;
 			if(chocoParedAzul() == true)
 			{
-				posX = posX - (move*2);
+				posX = posX - (move*3);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ function doKeyDown(e) {
 			posX = posX - move;
 			if(chocoParedAzul() == true)
 			{
-				posX = posX + (move*2);
+				posX = posX + (move*3);
 			}
 		}
 	}
@@ -162,7 +162,7 @@ function doKeyDown(e) {
 			posY = posY - move;
 			if(chocoParedAzul() == true)
 			{
-				posY = posY + (move*2);
+				posY = posY + (move*3);
 			}
 		}
 	}
@@ -172,7 +172,7 @@ function doKeyDown(e) {
 			posY = posY + move;
 			if(chocoParedAzul() == true)
 			{
-				posY = posY - (move*2);
+				posY = posY - (move*3);
 			}
 		}
 	}
@@ -199,7 +199,6 @@ function choco(){
 			}
 		}
 	}
-	console.log("Retornó False");
 	return false;
 }
 
@@ -226,7 +225,6 @@ function chocoParedAzul(){
 	}
 	return false;
 }
-
 
 /*
 left arrow		37

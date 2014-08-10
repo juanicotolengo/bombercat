@@ -4,6 +4,7 @@ var espaciamiento = 100;
 
 var bomberGlobal, paredGlobal;
 
+// Objeto Bomber
 var Bomber = function() {
     var posX = 0;
     var posY = 0;
@@ -26,6 +27,7 @@ var Bomber = function() {
     this.calcularLeft = function(){return  posX;}
 }
 
+// Objeto Pared
 var Pared = function() {
 	var top = 300;
  	var right = 700;
@@ -40,7 +42,8 @@ var Pared = function() {
     this.dibujar = function(){
 		context.beginPath();
 		context.fillStyle = "blue";
-		context.fillRect(top, left, (right - left), (bottom - top));
+		console.log("Left: " + left);
+		context.fillRect(left - 45, top - 50, right - left, bottom - top);
 		context.fill();
 		context.lineWidth = 1;
  		context.strokeStyle = "#000000";
@@ -69,15 +72,16 @@ $(document).ready(function(){
 	context.fillRect(0,0,window.innerWidth,window.innerHeight);
 	context.fillRect(0,0,200,100);
 
+	// Crea una nueva paredGlobal
 	paredGlobal = new Pared();
 
-	// Dibuja el cuerpo del Bomberman
+	// Crea un objeto Bomber, le asigna las posiciones y lo dibuja
 	bomberGlobal = new Bomber();
 	bomberGlobal.setPosY(150);
 	bomberGlobal.setPosX(150);
 	body(size);
+	// Dibuja el mapa
 	mapa();
-	dibujarParedAzul();
 	paredGlobal.dibujar();
 	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
@@ -86,7 +90,6 @@ $(document).ready(function(){
 
 function body(size){
 
-
 	var posX = bomberGlobal.getPosX();
 	var posY = bomberGlobal.getPosY();
 
@@ -94,6 +97,7 @@ function body(size){
 	context.fillStyle = "#BB0011";
 	context.fillRect(0,0,canvas.width,canvas.height);
 
+	// Radio de las partes del cuerpo
 	var rCuerpo = 70 * size;
 	var rCabeza = 35 * size;
 	var rPieIzq = 20 * size;
@@ -101,9 +105,11 @@ function body(size){
 	var rBrazoIzq = 10 * size;
 	var rBrazoDer = 10 * size;
 
+	// Se almacena el ancho y alto del Bomber
 	var anchoBomber = rCuerpo + rBrazoDer + 2 + rCuerpo + rBrazoIzq + 2;
 	var altoBomber = rCuerpo + rCabeza + rCuerpo + rCabeza;
 
+	// Se pasan los parámetros al objeto bomberGlobal
 	bomberGlobal.setAncho(anchoBomber);
 	bomberGlobal.setAlto(altoBomber);
 
@@ -180,6 +186,17 @@ function body(size){
  	context.closePath();
 }
 
+function mapa(){
+	for(i = 0; i < 14; i++){
+		for(j = 0; j < 8; j++){
+			if(i%2==0 && j%2==0){
+				paredMetal(i, j);
+			}
+		}
+	}
+}
+
+
 function paredMetal(counterX, counterY){
 	context.beginPath();
 	context.fillStyle = "gray";
@@ -191,16 +208,7 @@ function paredMetal(counterX, counterY){
  	context.closePath();
 }
 
-function mapa(){
-	for(i = 0; i < 14; i++){
-		for(j = 0; j < 8; j++){
-			if(i%2==0 && j%2==0){
-				paredMetal(i, j);
-			}
-		}
-	}
-}
-
+// Función para detectar las teclas
 function doKeyDown(e) {
 	//console.log("Se movio");
 	// Derecha
@@ -244,11 +252,28 @@ function doKeyDown(e) {
 		}
 	}
 
+	// Dibuja el cuerpo, mapa y paredGlobal
 	body(size);
 	mapa();
-	dibujarParedAzul();
+	paredGlobal.dibujar();
 }
 
+// Función para detectar si chocó la pared
+function chocoParedAzul(){
+ 	//console.log("Entro a chocoParedAzul");
+
+	if(bomberGlobal.calcularLeft() < paredGlobal.getRight() && bomberGlobal.calcularRight() > paredGlobal.getLeft()){
+	// if(leftBomber < rightPared && rightBomber > leftPared)
+		if(bomberGlobal.calcularBottom() > paredGlobal.getTop() && bomberGlobal.calcularTop() < paredGlobal.getBottom()){
+		// if(bottomBomber > topPared && topBomber < bottomPared)
+			// Retorna verdadero si se cumplen las condiciones
+			return true;
+		}
+	}
+	return false;
+}
+
+/*
 function choco(){
 	for(i = 0; i < 14; i++){
 		for(j = 0; j < 8; j++){
@@ -279,18 +304,6 @@ function dibujarParedAzul(){
  		context.closePath();
 }
 
-function chocoParedAzul(){
- 	//console.log("Entro a chocoParedAzul");
-
-	if(bomberGlobal.calcularLeft() < paredGlobal.getRight() && bomberGlobal.calcularRight() > paredGlobal.getLeft()){
-		if(bomberGlobal.calcularBottom() > paredGlobal.getTop() && bomberGlobal.calcularTop() < paredGlobal.getBottom()){
-			return true;
-		}
-	}
-	return false;
-}
-
-/*
 left arrow		37
 up arrow		38
 right arrow 	39

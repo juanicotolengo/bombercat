@@ -2,9 +2,9 @@ var myCanvas, context, canvasWidth, canvasHeight, mapCellX, mapCellY, e, size = 
 
 var espaciamiento = 100;
 
-var bomberGlobal, paredGlobal;
+var bomberGlobal;
 
-var Bomber = function() {
+var Bomber = function () {
     var posX = 0;
     var posY = 0;
     var ancho = 0;
@@ -24,29 +24,6 @@ var Bomber = function() {
     this.calcularRight = function(){return posX + ancho;}
     this.calcularBottom = function(){return posY + alto;}
     this.calcularLeft = function(){return  posX;}
-}
-
-var Pared = function() {
-	var top = 300;
- 	var right = 700;
- 	var bottom = 500;
- 	var left = 500;
-
- 	this.getTop = function() {return top;}
-    this.getRight = function() {return right;}
-    this.getBottom = function() {return bottom;}
-    this.getLeft = function() {return left;}
-
-    this.dibujar = function(){
-		context.beginPath();
-		context.fillStyle = "blue";
-		context.fillRect(top, left, (right - left), (bottom - top));
-		context.fill();
-		context.lineWidth = 1;
- 		context.strokeStyle = "#000000";
- 		context.stroke();
- 		context.closePath();
-	}
 }
 
 $(document).ready(function(){
@@ -69,8 +46,6 @@ $(document).ready(function(){
 	context.fillRect(0,0,window.innerWidth,window.innerHeight);
 	context.fillRect(0,0,200,100);
 
-	paredGlobal = new Pared();
-
 	// Dibuja el cuerpo del Bomberman
 	bomberGlobal = new Bomber();
 	bomberGlobal.setPosY(150);
@@ -78,7 +53,6 @@ $(document).ready(function(){
 	body(size);
 	mapa();
 	dibujarParedAzul();
-	paredGlobal.dibujar();
 	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
 	document.body.addEventListener( "keypress", doKeyDown, true);
@@ -271,7 +245,7 @@ function choco(){
 function dibujarParedAzul(){
 		context.beginPath();
 		context.fillStyle = "blue";
-		context.fillRect(300, 500, 200, 200);
+		context.fillRect(500, 300, 200, 200);
 		context.fill();
 		context.lineWidth = 1;
  		context.strokeStyle = "#000000";
@@ -280,13 +254,19 @@ function dibujarParedAzul(){
 }
 
 function chocoParedAzul(){
+	var topPared = 300;
+ 	var rightPared = 700;
+ 	var bottomPared = 500;
+ 	var leftPared = 500;
  	//console.log("Entro a chocoParedAzul");
 
-	if(bomberGlobal.calcularLeft() < paredGlobal.getRight() && bomberGlobal.calcularRight() > paredGlobal.getLeft()){
-		if(bomberGlobal.calcularBottom() > paredGlobal.getTop() && bomberGlobal.calcularTop() < paredGlobal.getBottom()){
+	if(bomberGlobal.calcularLeft() < rightPared && bomberGlobal.calcularRight() > leftPared){
+		if(bomberGlobal.calcularBottom() > topPared && bomberGlobal.calcularTop() < bottomPared){
 			return true;
 		}
 	}
+
+	//console.log("No entro a los if de chocoParedAzul");
 	return false;
 }
 

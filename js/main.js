@@ -215,7 +215,7 @@ function doKeyDown(e) {
 	//console.log("Se movio");
 	// Derecha
 	if (e.keyCode == 39){
-		if (bomberGlobal.getPosX() < myCanvas.width - 70){
+		if (bomberGlobal.getPosX() < myCanvas.width){
 			bomberGlobal.setPosX(bomberGlobal.getPosX() + move);
 			if(chocoParedAzul() == true)
 			{
@@ -225,7 +225,7 @@ function doKeyDown(e) {
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (bomberGlobal.getPosX() > 70 ){
+		if (bomberGlobal.getPosX() > 0){
 			bomberGlobal.setPosX(bomberGlobal.getPosX() - move);
 			if(chocoParedAzul() == true)
 			{
@@ -235,7 +235,7 @@ function doKeyDown(e) {
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (bomberGlobal.getPosY() > 90 ){
+		if (bomberGlobal.getPosY() > 0){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() - move);
 			if(chocoParedAzul() == true)
 			{
@@ -245,7 +245,7 @@ function doKeyDown(e) {
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (bomberGlobal.getPosY() < myCanvas.height - 90){
+		if (bomberGlobal.getPosY() < myCanvas.height){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() + move);
 			if(chocoParedAzul() == true)
 			{

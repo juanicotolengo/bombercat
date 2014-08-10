@@ -25,6 +25,9 @@ var Bomber = function() {
     this.calcularRight = function(){return posX + ancho;}
     this.calcularBottom = function(){return posY + alto;}
     this.calcularLeft = function(){return  posX;}
+
+    this.calcularCentroX = function(){return  posX + (ancho/2);}
+    this.calcularCentroY = function(){return  posX + (alto/2);}
 }
 
 // Objeto Pared
@@ -43,7 +46,7 @@ var Pared = function() {
 		context.beginPath();
 		context.fillStyle = "blue";
 		console.log("Left: " + left);
-		context.fillRect(left - 45, top - 50, right - left, bottom - top);
+		context.fillRect(left, top, right - left, bottom - top);
 		context.fill();
 		context.lineWidth = 1;
  		context.strokeStyle = "#000000";
@@ -89,10 +92,6 @@ $(document).ready(function(){
 });
 
 function body(size){
-
-	var posX = bomberGlobal.getPosX();
-	var posY = bomberGlobal.getPosY();
-
 	//fondo rojo
 	context.fillStyle = "#BB0011";
 	context.fillRect(0,0,canvas.width,canvas.height);
@@ -104,6 +103,9 @@ function body(size){
 	var rPieDer = 20 * size;
 	var rBrazoIzq = 10 * size;
 	var rBrazoDer = 10 * size;
+
+	var posX = bomberGlobal.getPosX() + rCuerpo + rBrazoIzq + 2;
+	var posY = bomberGlobal.getPosY() + rCuerpo + rCabeza;
 
 	// Se almacena el ancho y alto del Bomber
 	var anchoBomber = rCuerpo + rBrazoDer + 2 + rCuerpo + rBrazoIzq + 2;

@@ -225,7 +225,7 @@ function doKeyDown(e) {
 	}
 	// Izquierda
 	if (e.keyCode == 37){
-		if (bomberGlobal.getPosX() > 70 ){
+		if (bomberGlobal.getPosX() > 0 ){
 			bomberGlobal.setPosX(bomberGlobal.getPosX() - move);
 			if(chocoParedAzul() == true)
 			{
@@ -235,7 +235,7 @@ function doKeyDown(e) {
 	}
 	// Arriba
 	if (e.keyCode == 38){
-		if (bomberGlobal.getPosY() > 90 ){
+		if (bomberGlobal.getPosY() > 0 ){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() - move);
 			if(chocoParedAzul() == true)
 			{

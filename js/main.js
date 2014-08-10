@@ -245,7 +245,7 @@ function doKeyDown(e) {
 	}
 	// Abajo
 	if (e.keyCode == 40){
-		if (bomberGlobal.getPosY() < myCanvas.height - bomberGlobal.getAlto()){
+		if (bomberGlobal.getPosY() < myCanvas.height - bomberGlobal.getAlto( )){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() + move);
 			if(chocoParedAzul() == true)
 			{

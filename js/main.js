@@ -1,8 +1,8 @@
 var myCanvas, context, size = 1/2, move = 7, pixelPared = 200;
 
-var espaciamiento = 100;
+var espaciamiento = 120;
 
-var bomberGlobal, paredGlobal;
+var bomberGlobal, paredGlobalAzul, paredGlobal;
 
 // Objeto Bomber
 var Bomber = function() {
@@ -21,13 +21,13 @@ var Bomber = function() {
     this.getAncho = function() {return ancho;}
     this.getAlto = function() {return alto;}
 
-    this.calcularTop = function(){return posY;}
-    this.calcularRight = function(){return posX + ancho;}
-    this.calcularBottom = function(){return posY + alto;}
-    this.calcularLeft = function(){return  posX;}
+    this.calcularTop = function() {return posY;}
+    this.calcularRight = function() {return posX + ancho;}
+    this.calcularBottom = function() {return posY + alto;}
+    this.calcularLeft = function() {return  posX;}
 
-    this.calcularCentroX = function(){return  posX + (ancho/2);}
-    this.calcularCentroY = function(){return  posX + (alto/2);}
+    this.calcularCentroX = function() {return  posX + (ancho/2);}
+    this.calcularCentroY = function() {return  posX + (alto/2);}
 }
 
 // Objeto Pared
@@ -37,12 +37,17 @@ var Pared = function() {
  	var bottom = 500;
  	var left = 500;
 
+ 	this.setTop = function(value) {top = value;}
+    this.setRight = function(value) {right = value;}
+    this.setBottom = function(value) {bottom = value;}
+    this.setLeft = function(value) {left = value;}
+
  	this.getTop = function() {return top;}
     this.getRight = function() {return right;}
     this.getBottom = function() {return bottom;}
     this.getLeft = function() {return left;}
 
-    this.dibujar = function(){
+    this.dibujar = function() {
 		context.beginPath();
 		context.fillStyle = "blue";
 		context.fillRect(left, top, right - left, bottom - top);
@@ -69,6 +74,7 @@ $(document).ready(function(){
 	context.fillRect(0,0,200,100);
 
 	// Crea una nueva paredGlobal
+	paredGlobalAzul = new Pared();
 	paredGlobal = new Pared();
 
 	// Crea un objeto Bomber, le asigna las posiciones y lo dibuja
@@ -78,7 +84,7 @@ $(document).ready(function(){
 	body(size);
 	// Dibuja el mapa
 	mapa();
-	paredGlobal.dibujar();
+	paredGlobalAzul.dibujar();
 	
 	// Checkea si se presionó una tecla y ejecuta doKeyDown
 	document.body.addEventListener( "keypress", doKeyDown, true);
@@ -205,9 +211,8 @@ function doKeyDown(e) {
 	if (e.keyCode == 39){
 		if (bomberGlobal.getPosX() < myCanvas.width - bomberGlobal.getAncho()){
 			bomberGlobal.setPosX(bomberGlobal.getPosX() + move);
-			if(chocoParedAzul() == true)
-			{
-				bomberGlobal.setPosX(bomberGlobal.getPosX() - (move*2));
+			if(chocoParedAzul() == true || chocoPared() == true){
+				bomberGlobal.setPosX(bomberGlobal.getPosX() - move);
 			}
 		}
 	}
@@ -215,9 +220,9 @@ function doKeyDown(e) {
 	if (e.keyCode == 37){
 		if (bomberGlobal.getPosX() > 0 ){
 			bomberGlobal.setPosX(bomberGlobal.getPosX() - move);
-			if(chocoParedAzul() == true)
+			if(chocoParedAzul() == true || chocoPared() == true)
 			{
-				bomberGlobal.setPosX(bomberGlobal.getPosX() + (move*2));
+				bomberGlobal.setPosX(bomberGlobal.getPosX() + move);
 			}
 		}
 	}
@@ -225,9 +230,9 @@ function doKeyDown(e) {
 	if (e.keyCode == 38){
 		if (bomberGlobal.getPosY() > 0 ){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() - move);
-			if(chocoParedAzul() == true)
+			if(chocoParedAzul() == true || chocoPared() == true)
 			{
-				bomberGlobal.setPosY(bomberGlobal.getPosY() + (move*2));
+				bomberGlobal.setPosY(bomberGlobal.getPosY() + move);
 			}
 		}
 	}
@@ -235,9 +240,9 @@ function doKeyDown(e) {
 	if (e.keyCode == 40){
 		if (bomberGlobal.getPosY() < myCanvas.height - bomberGlobal.getAlto( )){
 			bomberGlobal.setPosY(bomberGlobal.getPosY() + move);
-			if(chocoParedAzul() == true)
+			if(chocoParedAzul() == true || chocoPared() == true)
 			{
-				bomberGlobal.setPosY(bomberGlobal.getPosY() - (move*2));
+				bomberGlobal.setPosY(bomberGlobal.getPosY() - move);
 			}
 		}
 	}
@@ -245,19 +250,38 @@ function doKeyDown(e) {
 	// Dibuja el cuerpo, mapa y paredGlobal
 	body(size);
 	mapa();
-	paredGlobal.dibujar();
+	paredGlobalAzul.dibujar();
 }
 
 // Función para detectar si chocó la pared
 function chocoParedAzul(){
  	//console.log("Entro a chocoParedAzul");
 
-	if(bomberGlobal.calcularLeft() < paredGlobal.getRight() && bomberGlobal.calcularRight() > paredGlobal.getLeft()){
+	if(bomberGlobal.calcularLeft() < paredGlobalAzul.getRight() && bomberGlobal.calcularRight() > paredGlobalAzul.getLeft()){
 	// if(leftBomber < rightPared && rightBomber > leftPared)
-		if(bomberGlobal.calcularBottom() > paredGlobal.getTop() && bomberGlobal.calcularTop() < paredGlobal.getBottom()){
+		if(bomberGlobal.calcularBottom() > paredGlobalAzul.getTop() && bomberGlobal.calcularTop() < paredGlobalAzul.getBottom()){
 		// if(bottomBomber > topPared && topBomber < bottomPared)
 			// Retorna verdadero si se cumplen las condiciones
 			return true;
+		}
+	}
+	return false;
+}
+
+function chocoPared(){
+	for(i = 0; i < 14; i++){
+		for(j = 0; j < 8; j++){
+			if(i%2==0 && j%2==0){
+				paredGlobal.setLeft(espaciamiento * i);
+				paredGlobal.setRight((espaciamiento * i) + (pixelPared * size));
+				paredGlobal.setTop(espaciamiento * j);
+				paredGlobal.setBottom((espaciamiento * j) + (pixelPared * size));
+				if(bomberGlobal.calcularLeft() < paredGlobal.getRight() && bomberGlobal.calcularRight() > paredGlobal.getLeft()){
+					if(bomberGlobal.calcularBottom() > paredGlobal.getTop() && bomberGlobal.calcularTop() < paredGlobal.getBottom()){
+						return true;
+					}
+				}
+			}
 		}
 	}
 	return false;
